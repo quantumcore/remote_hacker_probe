@@ -5,6 +5,13 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
 
 ---
 
+### Installation & Usage
+1. Download Java 11+.
+2. Download the Zip Attached in the [Latest Release](https://github.com/quantumcored/remote_hacker_probe/releases)
+3. Run the file run-on-linux.desktop OR run-on-windows.bat
+
+---
+
 ### Server Features :
 - Visually Appealing and Theme able Graphical User Interface featuring Dark, Light, Solarized Dark and Solarized Light themes.
 - Built for ease and usability, Remote Hacker Probe is extremely easy to use and Set up.
