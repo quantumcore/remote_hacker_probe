@@ -47,8 +47,6 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
   - WiFi.
   - Credential Manager.
 - Task Manager.
-- 24/7 Support and Assistance.
-- Free Updates and Access to custom DLL Payloads.
 
 ---
 
