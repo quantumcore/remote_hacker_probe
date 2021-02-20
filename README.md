@@ -36,6 +36,7 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
 - Add to Startup Persistence on command.
 - Display Message box.
 - Open URLS in the default browser.
+- USB Infection.
 - Active Window logging. 
 - Client Path.
 - Keylogger. 
