@@ -66,7 +66,7 @@ You may contact me, on [Discord](https://discordapp.com/invite/8snh7nx) or [My W
 #### LICENSE
 [VIEW LICENSE](https://github.com/quantumcored/paradoxia/blob/master/LICENSE) 
 
-The Developer is not responsible for any misuse of Damage caused by the program. This is created only to innovate InfoSec and **YOU**. :point_left:
+The Developer is not responsible for any misuse or Damage caused by the program. This is created only to innovate InfoSec and **YOU**. :point_left:
 
 #### Donate
 Help me with my future projects. Thank you.
