@@ -64,7 +64,7 @@ Hi my name's [Fahad](https://github.com/quantumcore).
 You may contact me, on [Discord](https://discordapp.com/invite/8snh7nx) or [My Website](https://quantumcored.com/)
 
 #### LICENSE
-[VIEW LICENSE](https://github.com/quantumcored/paradoxia/blob/master/LICENSE) 
+[VIEW LICENSE](https://github.com/quantumcored/remote_hacker_probe/blob/main/LICENSE) 
 
 The Developer is not responsible for any misuse or Damage caused by the program. This is created only to innovate InfoSec and **YOU**. :point_left:
 
