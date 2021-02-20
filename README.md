@@ -27,9 +27,9 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
 - Reverse Shell, Full Access to the command line.
 - Scan Remote Network for hosts.
 - Port scan hosts in the Target Network.
-- Scan Remote Network for hosts vulerable to Eternal Blue
+- Scan Remote Network for hosts vulerable to Eternal Blue.
 - Get Process Information by Process name.
-- Geolocate Client using IP Address.
+- Geolocate Client using IP Address on an interactive Map.
 - Shutdown / Restart the Remote PC.
 - Grab screenshot of the Remote PC.
 - Record Microphone input.
