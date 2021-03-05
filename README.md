@@ -54,7 +54,7 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
 
 ### Bugs
 
-#### Remote RCE Vulnerability in RHP Server.
+#### Remote Shell Upload Vulnerability in RHP Server.
 This also has a working exploit and may be exploited in the wild. I'm currently fixing this and will publish the patch in a day or so. 
 The vulnerability was reported by a Random user who found RHP via a share on Reddit. While he was able to write the exploit using the Screenshot command.
 RCE and Shell / Payload upload can also be done using many other commands. 
