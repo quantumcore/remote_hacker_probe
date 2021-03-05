@@ -63,6 +63,8 @@ The exploit works by connecting to the RHP Server impersonating to be the Probe.
 
 **Temporary fix**, Don't expose RHP Server to the internet, If your RHP Server crashes after getting a lot of clients at once. Do not re run. 
 
+---
+
 ### Screenshots
 ![1](img/solarizedlight.PNG)
 ![2](img/solarizeddark.PNG)
