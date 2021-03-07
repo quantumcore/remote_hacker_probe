@@ -53,15 +53,7 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
 ---
 
 ### Bugs
-
-#### Remote Shell Upload Vulnerability in RHP Server.
-This also has a working exploit and may be exploited in the wild. I'm currently fixing this and will publish the patch in a day or so. 
-The vulnerability was reported by a Random user who found RHP via a share on Reddit. While he was able to write the exploit using the Screenshot command.
-RCE and Shell / Payload upload can also be done using many other commands. 
-
-The exploit works by connecting to the RHP Server impersonating to be the Probe. And Triggers 'SCREENSHOT' Upload to upload a modified backdoored version of RHP.jar ( Server.java modified and rebuilt ). After it's uploaded the Impersonator spams the RHP Server causing it to crash. Once it's re run, the modified version of RHP is run giving Access to your computer.
-
-**Temporary fix**, Don't expose RHP Server to the internet, If your RHP Server crashes after getting a lot of clients at once. Do not re run. 
+- Remote Shell Upload Vulnerability in RHP Server.
 
 ---
 
