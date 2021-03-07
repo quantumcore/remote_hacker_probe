@@ -37,6 +37,8 @@ public class Shell extends JDialog {
 	JButton ShellGo;
 	JLabel interact = new JLabel("");
 	public Shell() {
+		
+		MainWindow.HaltAllSystems();
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Remote Hacker Probe | Reverse Shell");
@@ -144,6 +146,7 @@ public class Shell extends JDialog {
 		    public void windowClosed(WindowEvent e) {
 		        Shell.ShellOutput.setText("");
 		        MainWindow.Log("Reverse Shell closed.");
+		        MainWindow.EnableAllSystems();
 		    }
 		});
 	}

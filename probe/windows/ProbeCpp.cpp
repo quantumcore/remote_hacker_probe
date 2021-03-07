@@ -159,12 +159,12 @@ void ProbeConnect(void)
     InetPton(AF_INET, Host.c_str(), &server.sin_addr.s_addr);
     server.sin_port = htons(Portnum);
     server.sin_family = AF_INET;
-
-    /*
-    server.sin_addr.s_addr = inet_addr(SERVER_HOST);
-    server.sin_port = htons(SERVER_PORT);
-    server.sin_family = AF_INET;
-    */
+    
+    
+    //server.sin_addr.s_addr = inet_addr(SERVER_HOST);
+    //server.sin_port = htons(SERVER_PORT);
+    //server.sin_family = AF_INET;
+    
     do {
         if (connect(sockfd, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR) {
             REConnect();

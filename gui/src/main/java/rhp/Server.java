@@ -159,6 +159,7 @@ public class Server {
 			while(true) {
 				try {
 					clientsocket = mainsocket.accept();
+					System.out.println("[INFO] New connection from : " + clientsocket.getRemoteSocketAddress().toString());
 					Clients.add(clientsocket);
 					MainWindow.UpdateOnlineLabel();
 					getInformation();

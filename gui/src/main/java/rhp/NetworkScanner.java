@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -52,6 +54,8 @@ public class NetworkScanner extends JDialog {
 	JList hsoutput;
 	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	Boolean isActionRunning = false;
+	
+	public static Boolean NetworkScanRunning = false;
 	
 	/**
 	 * Create the dialog.
@@ -127,6 +131,7 @@ public class NetworkScanner extends JDialog {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		MainWindow.HaltAllSystems();
 		isActionRunning = true;
+		NetworkScanRunning = true;
 		progressBar_1.setIndeterminate(true);
 		List<String> lines;
 		try {
@@ -146,6 +151,7 @@ public class NetworkScanner extends JDialog {
 		isActionRunning = false;
 		MainWindow.EnableAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		NetworkScanRunning = false;
 	}
 	
 	void EScanIp(ArrayList<String> localArray)
@@ -153,6 +159,7 @@ public class NetworkScanner extends JDialog {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		MainWindow.HaltAllSystems();
 		isActionRunning = true;
+		NetworkScanRunning = true;
 		for (int counter = 0; counter < localArray.size(); counter++) { 		      
 	         // System.out.println(localArray.get(counter));
 			
@@ -170,6 +177,7 @@ public class NetworkScanner extends JDialog {
 
 		EModel.addElement("MS17-010 Scan finished.");
 		isActionRunning = false;
+		NetworkScanRunning = false;
 		MainWindow.EnableAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
@@ -179,6 +187,7 @@ public class NetworkScanner extends JDialog {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		MainWindow.HaltAllSystems();
 		isActionRunning = true;
+		NetworkScanRunning = true;
 		progressBar.setIndeterminate(true);
 		for (int counter = 0; counter < localArray.size(); counter++) { 		      
 	         // System.out.println(localArray.get(counter));
@@ -199,11 +208,13 @@ public class NetworkScanner extends JDialog {
 		progressBar.setIndeterminate(false);
 		NsModel.addElement("Scan finished.");
 		isActionRunning = false;
+		NetworkScanRunning = false;
 		MainWindow.EnableAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
 	
 	public NetworkScanner() {
+		MainWindow.HaltAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		setResizable(false);
@@ -641,6 +652,14 @@ public class NetworkScanner extends JDialog {
 		MainWindow.addPopup(PList, jp2);
 		MainWindow.addPopup(eternalscanoutput, jp3);
 		MainWindow.addPopup(hsoutput, jp4);
+		
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosed(WindowEvent we) {
+				MainWindow.EnableAllSystems();
+			}
+		});
 
 	}
 }

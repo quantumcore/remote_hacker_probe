@@ -12,6 +12,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
@@ -28,6 +30,7 @@ public class MsgBox extends JDialog {
 	 * Create the dialog.
 	 */
 	public MsgBox() {
+		MainWindow.HaltAllSystems();
 		setResizable(false);
 		setTitle("Remote Hacker Probe | Message Box");
 		setBounds(100, 100, 421, 217);
@@ -98,5 +101,13 @@ public class MsgBox extends JDialog {
 		btnNewButton.setFont(new Font("Calibri", Font.PLAIN, 12));
 		btnNewButton.setBounds(300, 147, 89, 23);
 		contentPanel.add(btnNewButton);
+		
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosed(WindowEvent we) {
+				MainWindow.EnableAllSystems();
+			}
+		});
 	}
 }

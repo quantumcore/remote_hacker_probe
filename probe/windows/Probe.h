@@ -34,10 +34,9 @@
 #define UNLEN 256
 
 #define MESSAGE "Hey there! I see you are reverse engineering! :D"
-/*
-#define SERVER_HOST "192.168.1.106"
-#define SERVER_PORT 1234
-*/
+
+//#define SERVER_HOST "127.0.0.1
+//#define SERVER_PORT 1234
 
 static BOOL connected = FALSE;
 

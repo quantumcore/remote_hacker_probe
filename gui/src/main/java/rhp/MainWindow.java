@@ -81,7 +81,7 @@ public class MainWindow {
 	};
 	static JTextArea LogArea = new JTextArea();
 	public static JTable table;
-	public static JLabel onlinelabel;
+	public static JLabel onlinelabel = new JLabel("");
 	static JLabel userlbl = new JLabel("User : ");
 
 	/**
@@ -145,31 +145,16 @@ public class MainWindow {
 	
 	public static void HaltAllSystems()
 	{
-		if(FileManager.FileList != null){
-			FileManager.FileList.setEnabled(false); // Disable The File Manager
-		}
 		
-		if(Shell.ShellOutput != null);
-		{
-			Shell.ShellOutput.setEnabled(false); // Disable Shell
-		}
-		table.getSelectionModel().clearSelection();
+		//table.getSelectionModel().clearSelection();
 		table.setEnabled(false); // Disable the Main Table too!
 	}
 	
 	public static void EnableAllSystems()
 	{
-		if(FileManager.FileList != null)
-		{
-			FileManager.FileList.setEnabled(true); // Enable The File Manager
-		}
-		
-		if(Shell.ShellOutput != null)
-		{
-			Shell.ShellOutput.setEnabled(true); // Enable Shell
-		}
 		table.setEnabled(true); // Enable the Main Table too!
 	}
+	
 	public static void Log(String text)
 	{
 		String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
@@ -479,6 +464,7 @@ public class MainWindow {
 					Server.SendData(Server.Clients.get(index), "drives");
 					ServerThread.WaitForReply();
 					FileManager dialog = new FileManager();
+					FileManager.FileMgrOpen = true;
 					dialog.CLIENT_ID = table.getSelectedRow(); 
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
