@@ -53,7 +53,8 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
 ---
 
 ### Bugs
-- Remote Shell Upload Vulnerability in RHP Server.
+- Remote Shell Upload Vulnerability in RHP Server, Fixed. :heavy_check_mark:
+- Unauthorized File Upload to RHP Server, Fixed. :heavy_check_mark:
 
 ---
 
