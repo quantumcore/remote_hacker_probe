@@ -218,7 +218,7 @@ public class NetworkScanner extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		setResizable(false);
-		setTitle("Remote Hacker Probe | Network Scanner");
+		setTitle("Remote Hacker Probe Pro | Network Scanner");
 		setBounds(100, 100, 451, 476);
 		getContentPane().setLayout(null);
 		

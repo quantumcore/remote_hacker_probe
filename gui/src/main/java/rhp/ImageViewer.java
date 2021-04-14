@@ -18,7 +18,7 @@ public class ImageViewer extends JDialog {
 	
 	public ImageViewer() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setTitle("Remote Hacker Probe | Image Viewer (displaying : " + ImagePath + ")");
+		setTitle("Remote Hacker Probe Pro | Image Viewer (displaying : " + ImagePath + ")");
 		setBounds(100, 100, 911, 502);
 		
 		JLabel lblNewLabel = new JLabel(new StretchIcon(ImagePath));

@@ -102,7 +102,7 @@ public class MicRecorder extends JDialog {
 		MainWindow.HaltAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
-		setTitle("Remote Hacker Probe | Mic Recorder");
+		setTitle("Remote Hacker Probe Pro | Mic Recorder");
 		setBounds(100, 100, 299, 169);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

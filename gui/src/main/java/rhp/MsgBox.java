@@ -32,7 +32,7 @@ public class MsgBox extends JDialog {
 	public MsgBox() {
 		MainWindow.HaltAllSystems();
 		setResizable(false);
-		setTitle("Remote Hacker Probe | Message Box");
+		setTitle("Remote Hacker Probe Pro | Message Box");
 		setBounds(100, 100, 421, 217);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -103,6 +103,10 @@ public class MsgBox extends JDialog {
 		contentPanel.add(btnNewButton);
 		
 		addWindowListener(new WindowAdapter() {
+			@Override
+		    public void windowOpened(WindowEvent we) {
+				MainWindow.HaltAllSystems();
+		    }
 			
 			@Override
 			public void windowClosed(WindowEvent we) {

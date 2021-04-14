@@ -105,7 +105,7 @@ public class Settings extends JDialog {
 	
 	public Settings() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setTitle("Remote Hacker Probe | Settings");
+		setTitle("Remote Hacker Probe Pro | Settings");
 		setBounds(100, 100, 361, 203);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

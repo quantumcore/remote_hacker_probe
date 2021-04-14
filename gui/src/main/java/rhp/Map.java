@@ -71,6 +71,7 @@ public class Map extends JDialog {
 	Double lat = MainWindow.GetLatitude(CLIENT_ID);
     Double longi = MainWindow.GetLongitude(CLIENT_ID);
     private JTextField gm;
+    Boolean isProbe;
 	/**
 	 * Create the dialog.
 	 */
@@ -78,7 +79,7 @@ public class Map extends JDialog {
 	public void UpdateMapInfo()
 	{
 		int mode = -1;
-		lc.setText("IP Address : " + Server.WANIP.get(CLIENT_ID) + " Country : " + Server.ReturnLocation(mode));
+		lc.setText("IP Address : " + Server.WANIP.get(CLIENT_ID) + " Country : " + Server.ReturnLocation(mode, isProbe));
 		gm.setText("https://www.google.com/maps?q=" + String.valueOf(lat) + "," + String.valueOf(longi));
 		GeoPosition posi = new GeoPosition(lat, longi);
         mapViewer.setAddressLocation(posi);
@@ -86,7 +87,7 @@ public class Map extends JDialog {
 	}
 	public Map() {
 		setResizable(false);
-		setTitle("Remote Hacker Probe | GeoLocation");
+		setTitle("Remote Hacker Probe Pro | GeoLocation");
 		setBounds(100, 100, 526, 366);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

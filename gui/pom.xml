@@ -25,9 +25,14 @@
 			  <version>2.6</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.googlecode.json-simple</groupId>
-		    <artifactId>json-simple</artifactId>
-		    <version>1.1.1</version>
+		  <groupId>org.eclipse.ecf</groupId>
+		  <artifactId>org.json</artifactId>
+		  <version>1.0.0.v201011060100</version>
 		</dependency>
-   </dependencies>
+		<dependency>
+		  <groupId>com.fifesoft</groupId>
+		  <artifactId>rsyntaxtextarea</artifactId>
+		  <version>3.1.2</version>
+		</dependency>
+	</dependencies>
 </project>

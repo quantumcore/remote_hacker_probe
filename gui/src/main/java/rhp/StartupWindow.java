@@ -40,14 +40,13 @@ public class StartupWindow extends JDialog {
 	
 	String firstMessage = "<html><div style='text-align: center;'>"
 			+ "Welcome, " + Settings.userSetting("username")
-			+ ". Thank you for using The Remote Hacker Probe. The Hacking Software for normal people. Created to be EASY and Stable to use.<br>"
-			+ "The Remote Hacker Probe also has a Pro Version. Consider upgrading : https://quantumcored.com/index.php/the-remote-hacker-probe/<br>"
-			+ "The Remote Hacker Probe will now Start with Default Settings.<br>"
+			+ ". Thank you for purchasing The Remote Hacker Probe Pro. The Hacking Software for normal people. Created to be EASY and Stable to use.<br>"
+			+ "The Remote Hacker Probe Pro will now Start with Default Settings.<br>"
 			+ "Server Host : 0.0.0.0<br>Server Port : 1234<br>Theme : Light."
 			+ "</div></html>";
 	
 	String secondMessage = "<html>Before you start, I (QuantumCore) would like to ask for your support.<br>"
-			+ "Help me with my future projects / Leave a Star on the Remote Hacker Probe Repository.<br>"
+			+ "Help me with my future projects / Leave a Star on the Remote Hacker Probe Pro Repository.<br>"
 			+ "<br>OR Consider donating, When you Donate, You save the developer from starvation.<br>"
 			+ "</html>";
 
@@ -55,7 +54,7 @@ public class StartupWindow extends JDialog {
 	 * Create the dialog.
 	 */
 	public StartupWindow() {
-		setTitle("Remote Hacker Probe | Welcome");
+		setTitle("Remote Hacker Probe Pro | Welcome");
 		setBounds(100, 100, 499, 475);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,7 +63,7 @@ public class StartupWindow extends JDialog {
 		introlbl.setFont(new Font("Calibri", Font.PLAIN, 12));
 		introlbl.setText(firstMessage);
 		
-		JLabel heading = new JLabel("The Remote Hacker Probe");
+		JLabel heading = new JLabel("The Remote Hacker Probe Pro");
 		heading.setFont(new Font("Calibri", Font.BOLD, 14));
 		ImageIcon cat = new ImageIcon("img/hacker-cat.gif");
 		JLabel icon = new JLabel(cat);
@@ -73,28 +72,26 @@ public class StartupWindow extends JDialog {
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
+					.addGap(138)
+					.addComponent(heading, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(159))
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(introlbl, GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(icon, GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(155)
-							.addComponent(heading)))
+					.addContainerGap()
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(introlbl, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+						.addComponent(icon, GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(heading)
-					.addGap(11)
-					.addComponent(introlbl, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+					.addComponent(heading, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(icon, GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+					.addComponent(introlbl, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(icon, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		contentPanel.setLayout(gl_contentPanel);

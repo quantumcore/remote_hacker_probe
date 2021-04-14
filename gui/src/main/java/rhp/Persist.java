@@ -33,14 +33,26 @@ public class Persist extends JDialog {
 	private JTextField hiddenfilename;
 	JCheckBox infect;
 	private JTextField keyname;
-
+	
+	public static String InstallPath(String username, String fdname, String filename)
+	{
+		return "C:\\Users\\" + username +"\\AppData\\Roaming\\" +fdname + "\\" + filename + ".exe";
+	}
+	
+	public static String InstallFolder(String username, String fdname)
+	{
+		return "C:\\Users\\" + username +"\\AppData\\Roaming\\" +fdname + "\\";
+	}
+	
 	/**
 	 * Create the dialog.
 	 */
 	public Persist() {
+		
+		
 		MainWindow.HaltAllSystems();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setTitle("Remote Hacker Probe | Persistence");
+		setTitle("Remote Hacker Probe Pro | Persistence");
 		setResizable(false);
 		setBounds(100, 100, 416, 241);
 		getContentPane().setLayout(new BorderLayout());
@@ -89,7 +101,8 @@ public class Persist extends JDialog {
 				{
 					String filename = hiddenfilename.getText();
 					String foldername = hiddenfoldername.getText();
-				    fullpth.setText("C:\\Users\\" + username +"\\AppData\\Roaming\\" +foldername + "\\" + filename + ".exe");
+				//    fullpth.setText("C:\\Users\\" + username +"\\AppData\\Roaming\\" +foldername + "\\" + filename + ".exe");
+				    fullpth.setText(InstallPath(username, foldername, filename));
 				}
 				
 			    //System.out.println("insertUpdate");

