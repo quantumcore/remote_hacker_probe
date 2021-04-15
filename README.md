@@ -94,7 +94,6 @@ The Reflective Loader Client is stripped of most features except Reflective DLL 
 - Swing Authors.
 - [@stephenfewer](https://github.com/stephenfewer/) (https://github.com/stephenfewer/ReflectiveDLLInjection)
 - [@bhassani](https://github.com/bhassani/) (https://github.com/bhassani/EternalBlueC)
-- 
 #### Developer
 Hi my name's [Fahad](https://github.com/quantumcore).
 You may contact me, on [Discord](https://discordapp.com/invite/8snh7nx) or [My Website](https://quantumcored.com/)
