@@ -28,9 +28,6 @@ _Please do not use the Remote Hacker Probe or any Software for Black Hat Activit
 - The Server is coded in Java meaning it is Cross Platform! It will run anywhere in a Java Runtime Environment (JRE).
 - Event Logging.
 - High Speed File Upload / Download.
-- 24/7 Support and Assistance.
-- Free Updates and Access to custom DLL Payloads.
-
 
 ### Main Features :
 
@@ -80,7 +77,7 @@ The Reflective Loader Client is stripped of most features except Reflective DLL 
 ---
 ### Tutorials and Posts
 - [Getting Started with Remote Hacker Probe](https://quantumcored.com/index.php/2021/02/24/getting-started-with-the-remote-hacker-probe/)
--  [Getting Started with Remote Hacker Probe(Video)](https://quantumcored.com/index.php/2021/02/24/getting-started-with-the-remote-hacker-probe/) or see [Video.](https://youtu.be/5iDR0XTFtso)
+-  [Getting Started with Remote Hacker Probe(Video)](https://youtu.be/5iDR0XTFtso)
 - [Running Completely in Memory using Remote Hacker Probe’s new DLL Loader Payload](https://quantumcored.com/index.php/2021/03/11/running-completely-in-memory-using-remote-hacker-probes-new-dll-loader-payload/)
 - [Beginners guide to Reflective DLL Injection](https://quantumcored.com/index.php/2021/03/26/beginners-guide-to-reflective-dll-injection/) to write your own dlls. 
 - [V.2 Changelogs](https://quantumcored.com/index.php/2021/04/13/remote-hacker-probe-v-2-changelogs/)
