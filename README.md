@@ -1,7 +1,7 @@
 ![logo](img/rhp.png)
 ---
 
-The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded in C++/Java.
+The Remote Hacker Probe is a Threat Emulation and Red Teaming Framework built to be easy to use.
 
 - The Remote Hacker Probe is Feature Rich! Including,
 Keystroke Logging, Reflective DLL Injection, Reverse Shell, Password Recovery, etc.
