@@ -253,6 +253,7 @@ public class MainWindow {
 
 		settings.refresh();
 	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -264,22 +265,16 @@ public class MainWindow {
 					UIManager.put("OptionPane.buttonFont", new Font("Calibri", Font.PLAIN, 12));
 					
 					String usrlbltxt = Settings.userSetting("username");
-					setUIFont (new javax.swing.plaf.FontUIResource("Calibri",Font.PLAIN,13));
-					
 					if(usrlbltxt.equals("FILE_NOT_FOUND"))
 					{
 						Register dialog = new Register();
 						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						dialog.setVisible(true);
 					} else {
-						Register.CheckUserValidity();
-						
 						MainWindow window = new MainWindow();
 						window.frmRemoteHackerProbe.setVisible(true);
 						userlbl.setText("User : " + Settings.userSetting("username"));
-						UpdateOnlineLabel();
 					}
-
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -419,14 +414,7 @@ public class MainWindow {
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_3);
-		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Custom Probe");
-		mntmNewMenuItem_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(frmRemoteHackerProbe, "Coming soon!");
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_4);
+	
 		
 		JMenuBar menuBar_1 = new JMenuBar();
 		menuBar.add(menuBar_1);

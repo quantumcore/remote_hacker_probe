@@ -40,7 +40,7 @@ public class StartupWindow extends JDialog {
 	
 	String firstMessage = "<html><div style='text-align: center;'>"
 			+ "Welcome, " + Settings.userSetting("username")
-			+ ". Thank you for purchasing The Remote Hacker Probe Pro. The Hacking Software for normal people. Created to be EASY and Stable to use.<br>"
+			+ ". Thank you for using The Remote Hacker Probe Pro. The Hacking Software for normal people. Created to be EASY and Stable to use.<br>"
 			+ "The Remote Hacker Probe Pro will now Start with Default Settings.<br>"
 			+ "Server Host : 0.0.0.0<br>Server Port : 1234<br>Theme : Light."
 			+ "</div></html>";
