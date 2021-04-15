@@ -3,6 +3,14 @@
 
 The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded in C++/Java.
 
+- The Remote Hacker Probe is Feature Rich! Including,
+Keystroke Logging, Reflective DLL Injection, Reverse Shell, Password Recovery, etc.
+- Remote Hacker Probe Core is open source and constantly improved.
+- Fast and Lightweight, Remote Hacker Probe is coded in Java meaning it will run anywhere in a JRE and Client in C++ for Native Windows.
+
+The Remote Hacker Probe had 2 versions, Open Source and Professioal Version. That have been merged into one and the source code of the Professional Version is also now open source. [For more information click here](https://quantumcored.com/index.php/2021/04/14/end-of-the-remote-hacker-probe/)
+Please do not use the Remote Hacker Probe or any Software for Black Hat Activity. The Remote Hacker Probe is made for **Authorized Penetration testing**, Demonstrations and Reasearch. The Author is not responsible for any sort of misuse or damage caused by the program.
+
 ---
 
 ### Installation & Usage
@@ -19,18 +27,24 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
 - The Server is coded in Java meaning it is Cross Platform! It will run anywhere in a Java Runtime Environment (JRE).
 - Event Logging.
 - High Speed File Upload / Download.
+- 24/7 Support and Assistance.
+- Free Updates and Access to custom DLL Payloads.
 
----
 
 ### Main Features :
-- Execute DLL’s in memory using Reflective DLL Injection over Socket.
+
+#### Probe Client : 
+
+The Probe Client is a Standalone EXE containing all malicious code. This is the file used to take remote control over a Computer.
+
+- Reflective DLL Injection (Custom + Read Output / Pass Parameters to DLL)
 - Download, Upload, Delete and browse the entire file System.
 - Reverse Shell, Full Access to the command line.
 - Scan Remote Network for hosts.
 - Port scan hosts in the Target Network.
-- Scan Remote Network for hosts vulerable to Eternal Blue.
+- Scan Remote Network for hosts vulerable to Eternal Blue
 - Get Process Information by Process name.
-- Geolocate Client using IP Address on an interactive Map.
+- Geolocate Client using IP Address.
 - Shutdown / Restart the Remote PC.
 - Grab screenshot of the Remote PC.
 - Record Microphone input.
@@ -38,9 +52,9 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
 - Display Message box.
 - Open URLS in the default browser.
 - USB Infection.
-- Active Window logging. 
+- Active Window logging.
 - Client Path.
-- Keylogger. 
+- Keylogger.
 - Password Recovery.
   - Pidgin.
   - FileZilla.
@@ -49,6 +63,19 @@ The Remote Hacker Probe is a Remote Access and Post Exploitation Framework coded
   - WiFi.
   - Credential Manager.
 - Task Manager.
+
+#### Reflective Loader Client : 
+
+The Reflective Loader Client is stripped of most features except Reflective DLL Injection. IT establishes connection and runs Payloads in memory from the server. Using the Reflective Loader Client you have the advantage of running Completely in memory.
+
+- Reflective Probe Payload (Runs the Probe Client in memory)
+- Message Box Payload (Displays a Message Box as the process it was injected into)
+- Open URL Payload (Opens a url as the process it was injected into)
+- Elevation Payload (Triggers UAC Prompt for the Process it was injected into as ‘WindowsDefender.exe’)
+- Add / View Windows Defender Exclusions.
+- Reverse Shell.
+- Task Manager.
+- Reflective DLL Injection (Custom + Read Output / Pass Parameters to DLL)
 
 ---
 
