@@ -78,7 +78,12 @@ The Reflective Loader Client is stripped of most features except Reflective DLL 
 - Task Manager.
 - Reflective DLL Injection (Custom + Read Output / Pass Parameters to DLL)
 ---
+### Tutorials and Posts
+- [Getting Started with Remote Hacker Probe](https://quantumcored.com/index.php/2021/02/24/getting-started-with-the-remote-hacker-probe/)
+- [Running Completely in Memory using Remote Hacker Probe’s new DLL Loader Payload](https://quantumcored.com/index.php/2021/03/11/running-completely-in-memory-using-remote-hacker-probes-new-dll-loader-payload/)
+- [Beginners guide to Reflective DLL Injection](https://quantumcored.com/index.php/2021/03/26/beginners-guide-to-reflective-dll-injection/) to write your own dlls. 
 
+---
 ### Bugs
 - Remote Shell Upload Vulnerability in RHP Server, Fixed. :heavy_check_mark:
 - Unauthorized File Upload to RHP Server, Fixed. :heavy_check_mark:
