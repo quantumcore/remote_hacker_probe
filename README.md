@@ -5,7 +5,7 @@ The Remote Hacker Probe is a Threat Emulation and Red Teaming Framework built to
 
 - The Remote Hacker Probe is Feature Rich! Including,
 Keystroke Logging, Reflective DLL Injection, Reverse Shell, Password Recovery, etc.
-- Remote Hacker Probe Core is open source ~~and constantly improved.~~ and no longer supported.
+- Remote Hacker Probe Core is open source ~~and constantly improved.~~ and is no longer being updated or worked on.
 - Fast and Lightweight, Remote Hacker Probe is coded in Java meaning it will run anywhere in a JRE and Client in C++ for Native Windows.
 
 The Remote Hacker Probe had 2 versions, Open Source and Professional Version. That have been merged into one and the source code of the Professional Version is also now open source. [For more information click here](https://quantumcored.com/index.php/2021/04/14/end-of-the-remote-hacker-probe/).
