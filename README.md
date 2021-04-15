@@ -8,7 +8,7 @@ Keystroke Logging, Reflective DLL Injection, Reverse Shell, Password Recovery, e
 - Remote Hacker Probe Core is open source ~~and constantly improved.~~ and no longer supported.
 - Fast and Lightweight, Remote Hacker Probe is coded in Java meaning it will run anywhere in a JRE and Client in C++ for Native Windows.
 
-The Remote Hacker Probe had 2 versions, Open Source and Professioal Version. That have been merged into one and the source code of the Professional Version is also now open source. [For more information click here](https://quantumcored.com/index.php/2021/04/14/end-of-the-remote-hacker-probe/)
+The Remote Hacker Probe had 2 versions, Open Source and Professional Version. That have been merged into one and the source code of the Professional Version is also now open source. [For more information click here](https://quantumcored.com/index.php/2021/04/14/end-of-the-remote-hacker-probe/)
 Please do not use the Remote Hacker Probe or any Software for Black Hat Activity. The Remote Hacker Probe is made for **Authorized Penetration testing**, Demonstrations and Reasearch. The Author is not responsible for any sort of misuse or damage caused by the program.
 
 ---
