@@ -83,16 +83,12 @@ The Reflective Loader Client is stripped of most features except Reflective DLL 
 ### Bugs
 - Remote Shell Upload Vulnerability in RHP Server, Fixed. :heavy_check_mark:
 - Unauthorized File Upload to RHP Server, Fixed. :heavy_check_mark:
-
+- Reflective Loader fails. :heavy_check_mark:
+- 
 ---
 
 ### Screenshots
-![1](img/solarizedlight.PNG)
-![2](img/solarizeddark.PNG)
-![3](img/dark.PNG)
-![4](img/light.PNG)
-![5](img/rshell.PNG)
-
+![1](img/pic.PNG)
 
 #### Developer
 Hi my name's [Fahad](https://github.com/quantumcore).
