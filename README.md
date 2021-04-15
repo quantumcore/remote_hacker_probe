@@ -51,7 +51,8 @@ The Probe Client is a Standalone EXE containing all malicious code. This is the 
 - Open URLS in the default browser.
 - USB Infection.
 - Active Window logging.
-- Client Path.
+- UAC Status shown in main table.
+- Client Path shown in main table.
 - Keylogger.
 - Password Recovery.
   - Pidgin.
