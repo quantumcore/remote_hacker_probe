@@ -156,6 +156,7 @@ void Server::ProbeConnect(void)
     
     
     std::string info = LoadInfo::GetServerInfo();
+    //std::string info = "127.0.0.1:1234:1"; // I used this line for testing
     char* values[3];
     split((char*)info.c_str(), values, ":");
     std::string Host(values[0]);
@@ -503,7 +504,7 @@ void Server::RHPMain(void)
             if (InternetCheckConnection("http://www.google.com", 1, 0)) {
                 memset(wanip, '\0', BUFFER);
                 hInternet = InternetOpen(NULL, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
-                hFile = InternetOpenUrl(hInternet, "http://bot.whatismyipaddress.com/", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+                hFile = InternetOpenUrl(hInternet, "https://myexternalip.com/raw", NULL, 0, INTERNET_FLAG_RELOAD, 0);
                 InternetReadFile(hFile, &wanip, sizeof(wanip), &rSize);
                 wanip[rSize] = reinterpret_cast<char*>('\0');
 

@@ -4,6 +4,7 @@
 #define PROBE_H
 
 #include "../common/LoadLibraryR.h"
+
 #include <winsock2.h>
 #include <wininet.h>
 #include <shellapi.h>
@@ -35,7 +36,7 @@
 #define NTSTATUS LONG
 #define UNLEN 256
 #define MAXKEYLOGSZ 10000 // 10 kb maximum size of keylog, After that it will be cleared
-#define MSG "Oh no! Looks like I'm being reversed!"
+#define MSG "Oh no! Looks like I'm being reversed engineered!" // Random message for reverse engineers.
 
 static BOOL connected = FALSE;
 static BOOL online_keylogs = FALSE;
