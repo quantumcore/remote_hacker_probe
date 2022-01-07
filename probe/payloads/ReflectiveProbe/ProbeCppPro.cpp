@@ -145,6 +145,7 @@ void Server::StartWSA(void)
     }
 }
 
+
 void Server::ProbeConnect(const char* ip, int Port)
 {
     StartWSA();
@@ -153,16 +154,17 @@ void Server::ProbeConnect(const char* ip, int Port)
     {
         //exit(1);
     }
-
+    /*
     std::string info = LoadInfo::GetServerInfo();
     char* values[3];
     split((char*)info.c_str(), values, ":");
     std::string Host(values[0]);
     std::string Port(values[1]);
     int Portnum = std::stoi(Port);
+    */
     
-    server.sin_addr.s_addr = inet_addr(Host.c_str());
-    server.sin_port = htons(Portnum);
+    server.sin_addr.s_addr = inet_addr(ip);
+    server.sin_port = htons(Port);
     server.sin_family = AF_INET;
     
     int i = 0;
@@ -508,7 +510,7 @@ void Server::RHPMain(void)
             if (InternetCheckConnection("http://www.google.com", 1, 0)) {
                 memset(wanip, '\0', BUFFER);
                 hInternet = InternetOpen(NULL, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
-                hFile = InternetOpenUrl(hInternet, "http://bot.whatismyipaddress.com/", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+                hFile = InternetOpenUrl(hInternet, "https://myexternalip.com/raw", NULL, 0, INTERNET_FLAG_RELOAD, 0);
                 InternetReadFile(hFile, &wanip, sizeof(wanip), &rSize);
                 wanip[rSize] = reinterpret_cast<char*>('\0');
 
@@ -519,7 +521,7 @@ void Server::RHPMain(void)
             else {
                 sockprintf("No Internet Connection detected ...");
             }
-        }
+        } 
 
         else if (strcmp(recvbuf, "RHP_3") == 0)
         {
