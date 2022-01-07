@@ -164,8 +164,8 @@ void DLL_Loader::ProbeConnect()
         exit(1);
     }
 
-    //std::string info = GetServerInfo();
-    std::string info = "127.0.0.1:1234:1";
+    std::string info = GetServerInfo();
+    //std::string info = "127.0.0.1:1234:1";
     char* values[3];
     split((char*)info.c_str(), values, ":");
     std::string Host(values[0]);
